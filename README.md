@@ -1,7 +1,9 @@
-![Alt Text](/resources/Capture.PNG)
 # LyriSearch Lucene
+![LyriSearch header image](/src/main/resources/LyriSearch header image.PNG)
 
-### _A search engine for lyrics, powered by Dionisis & Angjelo_
+### ~~~ _A search engine for lyrics, powered by Dionisis & Angjelo_
+
+---
 
 LyriSearch is a powerful Java-based search engine for lyrics, developed specifically for the university course "Information Retrieval". The engine utilizes Lucene Core to provide advanced indexing and search capabilities.
 
@@ -33,18 +35,12 @@ LyriSearch is the perfect tool for anyone who loves music and wants to explore l
 ---- todo 
 ## Tech
 
-Dillinger uses a number of open source projects to work properly:
+LyriSerach uses a number of open source projects to work properly:
 
-- [AngularJS] - HTML enhanced for web apps!
-- [Ace Editor] - awesome web-based text editor
-- [markdown-it] - Markdown parser done right. Fast and easy to extend.
-- [Twitter Bootstrap] - great UI boilerplate for modern web apps
-- [node.js] - evented I/O for the backend
-- [Express] - fast node.js network app framework [@tjholowaychuk]
-- [Gulp] - the streaming build system
-- [Breakdance](https://breakdance.github.io/breakdance/) - HTML
-  to Markdown converter
-- [jQuery] - duh
+- [Java 17](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html) - Java is a high-level, class-based, object-oriented programming language that is designed to have as few implementation dependencies as possible. Java 17 was used because it is the latest version of Java that offers Long Term Support ( LTS ) and we wanted to experience its latest features and have some hands on experience. We could go with Java 8 or Java 11 also. Project can probably run with those versions also.
+- [Lucene Core 9.5.0](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html) - Apache Lucene™ is a high-performance, full-featured search engine library written entirely in Java. It is a technology suitable for nearly any application that requires structured search, full-text search, faceting, nearest-neighbor search across high-dimensionality vectors, spell correction or query suggestions.
+- [Maven]() - Markdown parser done right. Fast and easy to extend.
+
 
 And of course Dillinger itself is open source with a [public repository][dill]
 on GitHub.
