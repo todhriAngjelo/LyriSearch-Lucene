@@ -2,37 +2,35 @@
 # LyriSearch Lucene
 
 ### _A search engine for lyrics, powered by Dionisis & Angjelo_
-Dillinger is a cloud-enabled, mobile-ready, offline-storage compatible,
-AngularJS-powered HTML5 Markdown editor.
 
-- Type some Markdown on the left
-- See HTML in the right
-- ✨Magic ✨
+LyriSearch is a powerful Java-based search engine for lyrics, developed specifically for the university course "Information Retrieval". The engine utilizes Lucene Core to provide advanced indexing and search capabilities.
 
-## Features
+It was developed with the guidance and tutoring of Mrs. [Evaggelia Pitoura](https://www.cs.uoi.gr/~pitoura), Professor at Department of Computer Science and Engineering, University of Ioannina.
 
-- Import a HTML file and watch it magically convert to Markdown
-- Drag and drop images (requires your Dropbox account be linked)
-- Import and save files from GitHub, Dropbox, Google Drive and One Drive
-- Drag and drop markdown and HTML files into Dillinger
-- Export documents as Markdown, HTML and PDF
 
-Markdown is a lightweight markup language based on the formatting conventions
-that people naturally use in email.
-As [John Gruber] writes on the [Markdown site][df1]
+With LyriSearch, you can easily search for and discover lyrics from a vast database. Its efficient indexing system ensures that even large collections of lyrics can be searched quickly and accurately. Thanks to the powerful features of Lucene Core, you can also take advantage of advanced search options such as fuzzy matching and phrase searching.
 
-> The overriding design goal for Markdown's
-> formatting syntax is to make it as readable
-> as possible. The idea is that a
-> Markdown-formatted document should be
-> publishable as-is, as plain text, without
-> looking like it's been marked up with tags
-> or formatting instructions.
+LyriSearch is the perfect tool for anyone who loves music and wants to explore lyrics in new and exciting ways. Try it out today and discover your next favorite song!
 
-This text you see here is *actually- written in Markdown! To get a feel
-for Markdown's syntax, type some text into the left window and
-watch the results in the right.
+- Dionisios Diamantis
+- Angjelo Todhri
+- ✨ Evaggelia Pitoura ✨
 
+## (Corpus) Details & Credits
+
+- We used data scraping techiniques to collect our data from lyrics.com
+- Python script used for the data scraping can be found in the project sources ( .. todo add path )
+- Data were extracted in cvs format. We decided to use csv because ... 
+  - reason1, 
+  - reason2, 
+  - reason3
+- Each record contains 3 information (attributes). The song title, the singer and the lyrics of he song.
+- Python was used to execute the script which will scrap the internet and create a csv file with a sample of 500 song lyrics. The number of the lyrics can be adjusted in the script. 
+- todo.... Mention things about scalability
+
+> At this point we have already started using chatGPT to collect information and develop the most optimal way of writting the script.
+
+---- todo 
 ## Tech
 
 Dillinger uses a number of open source projects to work properly:
