@@ -20,18 +20,60 @@ LyriSearch is the perfect tool for anyone who loves music and wants to explore l
 
 ## (Corpus) Details & Credits
 
-- We used data scraping techiniques to collect our data from lyrics.com
-- Python script used for the data scraping can be found in the project sources ( .. todo add path )
-- Data were extracted in cvs format. We decided to use csv because ... 
-  - reason1, 
-  - reason2, 
-  - reason3
-- Each record contains 3 information (attributes). The song title, the singer and the lyrics of he song.
-- Python was used to execute the script which will scrap the internet and create a csv file with a sample of 500 song lyrics. The number of the lyrics can be adjusted in the script. 
-- todo.... Mention things about scalability
+- There are 2 ways, the easy way and the hard way. The easy way is to grant and use a dataset that can be found online in the web. There exists websites which provide plenty datasets. One of the most famous is kaggle. For the csv that we will attach in the resources a dataset from Kaggle was used.
+  <br> Dataset --> https://www.kaggle.com/datasets/terminate9298/songs-lyrics?select=lyrics.csv
+- The hard way would consist of  data scrapingto collect our data from websites like lyrics.com, azlyrics.com etc
+- Python script could be used for the data scraping(sample script can be found at: /src/main/resources )
+- Data were extracted in cvs format. We decided to use csv because 
+  - Compatibility: CSV (Comma-Separated Values) is a widely-used file format that can be easily imported into a wide range of software applications, including spreadsheet software, databases, and programming languages. This makes it an excellent choice for exporting data from your app, as it can be easily accessed and manipulated by users or other software tools
+  - Simplicity: CSV is a very simple and lightweight file format, making it easy to understand and work with even for non-technical users. It consists of rows and columns of data, with each row representing a record and each column representing a field. This simplicity also makes it a good choice for storing and transferring large amounts of data
+  - Scalability: CSV can be used to store and manage large amounts of data, making it a scalable solution for your app's data management needs. It can handle large datasets without sacrificing performance or requiring specialized hardware or software. This can be particularly important if your app deals with a lot of data or needs to scale up quickly
+- Each record contains 4 information (attributes). And id, the song title, the artist name and the lyrics of the song.
+- A sample of 500 song lyrics is going to be used. The number of the lyrics can be adjusted in the script. 
+- Lucene is scalable and it claims to handle big set of data without any issue, with small RAM requirements and modern hardware. Internally we will perform tests in bigger data sets as well. Our main focus is to build a first version of a running application ( prototype )
 
-> At this point we have already started using chatGPT to collect information and develop the most optimal way of writting the script.
----- todo 
+Sample python script:
+
+    import requests
+    from bs4 import BeautifulSoup
+    import csv
+    import time
+
+    # List of URLs to scrape
+    urls = ['https://www.azlyrics.com/lyrics/michaeljackson/takemeback.html',
+    'https://www.azlyrics.com/lyrics/madonna/likeaprayer.html',
+    'https://www.azlyrics.com/lyrics/queen/bohemianrhapsody.html']
+
+    # Open a CSV file for writing
+    with open('song_lyrics.csv', 'w', newline='') as csvfile:
+    writer = csv.writer(csvfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+
+    # Write the header row
+    writer.writerow(['artist', 'song', 'lyrics'])
+
+    # Loop through the list of URLs
+    for url in urls:
+    # Send a GET request to the URL
+    response = requests.get(url)
+
+    # Parse the HTML content using BeautifulSoup
+    soup = BeautifulSoup(response.content, 'html.parser')
+
+    # Extract the song title and artist name from the page title
+    title = soup.title.string
+    artist, song = title.split(' - ')
+
+    # Extract the lyrics text from the page
+    lyrics = soup.find('div', class_='ringtone').find_next_sibling('div').text.strip()
+
+    # Write the data row for this URL
+    writer.writerow([artist, song, lyrics])
+
+    # Print a success message
+    print(f"Song '{song}' successfully scraped.")
+
+    # Pause for 10 seconds before scraping the next URL
+    time.sleep(10)
 
 ## Short description of the project.
 
@@ -70,7 +112,10 @@ Run project - Run -> Run 'Main'
 LyriSearch is currently on version (todo).
 Instructions on how to use them in your own application are linked below.
 
-| Version          | Release Notes                             |
-|------------------|-------------------------------------------|
-| Version 1        | [plugins/dropbox/README.md][PlDb]         |
-| Version 2        | [plugins/github/README.md][PlGh]          |
+| Version   | Release Notes                                                              |
+|-----------|----------------------------------------------------------------------------|
+| Version 1 | initial commit                                                             |
+| Version 2 | commit readme and app logo                                                 |
+| Version 3 | commit readme update, lyrisearch headermage and pom.xml ( maven support )  |
+| Version 4 | redme support, some screenshots commit source code for the swing main page |
+| Version 5 | readme and                                                                 |
