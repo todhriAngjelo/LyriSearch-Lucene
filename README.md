@@ -77,11 +77,18 @@ Sample python script:
 
 ## Short description of the project.
 
-#### 1. Purpose of the application and the problem it solves
+#### Introduction: 
+The goal of the system is to allow users to search for song lyrics using various search criteria such as song title, artist name, and lyrics keywords. The app will leverage Lucene's text analysis and indexing capabilities to provide efficient and accurate search results.
 
-TODO
+#### Text analysis and index construction: 
+The app will preprocess the lyrics data by applying various text analysis techniques such as tokenization, stemming, and stop word removal using Lucene's Analyzer API. The resulting documents will be indexed using Lucene's IndexWriter API, which will create an inverted index that maps terms to the documents in which they appear. The documents will have fields such as song title, artist name, lyrics, and genre to support different search modes. The app will also use Lucene's QueryParser API to parse user input and create corresponding query objects to search the index.
 
 
+#### Search: 
+The app will support various types of queries such as term queries, phrase queries, fuzzy queries, and wildcard queries using Lucene's Query API. The app will also support boolean queries that combine multiple queries using operators such as AND, OR, and NOT. The app will use Lucene's IndexSearcher API to execute the queries and retrieve matching documents from the index.
+
+#### Presentation of results: 
+The app will present the search results in a user-friendly format such as a list or table. The app will also provide snippets of the matching lyrics to highlight the relevant parts of the song. The app can use Lucene's Highlighter API to generate the snippets based on the search query and the lyrics field in the indexed documents.
 
 
 ## Tech
@@ -118,4 +125,4 @@ Instructions on how to use them in your own application are linked below.
 | Version 2 | commit readme and app logo                                                 |
 | Version 3 | commit readme update, lyrisearch headermage and pom.xml ( maven support )  |
 | Version 4 | redme support, some screenshots commit source code for the swing main page |
-| Version 5 | readme and                                                                 |
+| Version 5 | readme finalization with small intro of the program and csv file           |
