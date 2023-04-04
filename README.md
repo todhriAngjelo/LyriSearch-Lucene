@@ -20,7 +20,8 @@ LyriSearch is the perfect tool for anyone who loves music and wants to explore l
 
 ## (Corpus) Details & Credits
 
-- There are 2 ways, the easy way and the hard way. The easy way is to grant and use a dataset that can be found online in the web. There exists websites which provide plenty datasets. One of the most famous is kaggle. For the csv that we will attach in the resources a dataset from Kaggle was used.
+- There are 2 ways, the easy way and the hard way.
+- The easy way is to grant and use a dataset that can be found online in the web. There exists websites which provide plenty datasets. One of the most famous is kaggle. For the csv that we will attach in the resources a dataset from Kaggle was used.
   <br> Dataset --> https://www.kaggle.com/datasets/terminate9298/songs-lyrics?select=lyrics.csv
 - The hard way would consist of  data scrapingto collect our data from websites like lyrics.com, azlyrics.com etc
 - Python script could be used for the data scraping(sample script can be found at: /src/main/resources )
