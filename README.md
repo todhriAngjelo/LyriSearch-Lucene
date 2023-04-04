@@ -1,5 +1,5 @@
 # LyriSearch Lucene
-![LyriSearch header image](/src/main/resources/LyriSearch header image.PNG)
+![LyriSearch header image](\src\main\resources\LyriSearch header image.PNG)
 
 ### ~~~ _A search engine for lyrics, powered by Dionisis & Angjelo_
 
