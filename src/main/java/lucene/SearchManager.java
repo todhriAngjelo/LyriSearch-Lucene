@@ -1,16 +1,10 @@
 package lucene;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
-import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
@@ -28,45 +22,57 @@ import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 
+import model.SearchAttributeMode2Enum;
 import model.SearchResult;
+import utils.Commons;
 
 public class SearchManager {
 
-	private IndexReader reader;
-	private IndexSearcher searcher;
-	private Analyzer analyzer;
-	private static String historyPath = "C:\\Users\\Chryssa\\Documents\\cse\\8osemester\\anakthshPlhroforias\\project\\splitTweetWithTabs\\history\\";
 	private static final String INDEX_PATH = "C:\\Users\\a.todhri\\IdeaProjects\\LyriSearch-Lucene\\src\\main\\resources\\indexes";
-	private String queries = null;
-	private boolean raw = false;
-	private String queryString = null;
-	private int hitsPerPage = 10;
-	private BufferedReader in = null;
-	private static HashMap<String, Integer> usernames = new HashMap<String, Integer>();
-	private static HashMap<String, Integer> locations = new HashMap<String, Integer>();
-	private static HashMap<String, Integer> hashtags = new HashMap<String, Integer>();
 
-	public SearchManager() {
+	public static long searchIndexTotalResults(String searchTerm, String searchAttribute) {
 		try {
-			init();
-		} catch (Exception e) {
-			e.printStackTrace();
+			Directory directory = FSDirectory.open(Paths.get(INDEX_PATH));
+			IndexReader reader = DirectoryReader.open(directory);
+			IndexSearcher searcher = new IndexSearcher(reader);
+
+			QueryParser parser = new QueryParser(searchAttribute, new StandardAnalyzer());
+			Query query = parser.parse(searchTerm);
+
+			return searcher.search(query, 1).totalHits.value;
+		} catch (IOException | ParseException e) {
+			throw new RuntimeException(e);
 		}
 	}
 
-	public void init() throws IOException {
-		reader = DirectoryReader.open(FSDirectory.open(Paths.get(INDEX_PATH)));
-		searcher = new IndexSearcher(reader);
-		analyzer = new StandardAnalyzer();
+	public static long searchIndexGroupedByYearTotalResults(String searchTerm, String searchAttribute, String year) {
+		try {
+			Directory directory = FSDirectory.open(Paths.get(INDEX_PATH));
+			IndexReader reader = DirectoryReader.open(directory);
+			IndexSearcher searcher = new IndexSearcher(reader);
 
-		if (queries != null) {
-			in = Files.newBufferedReader(Paths.get(queries), StandardCharsets.UTF_8);
-		} else {
-			in = new BufferedReader(new InputStreamReader(System.in, StandardCharsets.UTF_8));
+			QueryParser parser = new QueryParser(searchAttribute, new StandardAnalyzer());
+			QueryParser yearParser = new QueryParser(Commons.searchAttributeByMode(SearchAttributeMode2Enum.YEAR.getIndexValue(), Commons.INDEX_FILES_MODE), new StandardAnalyzer());
+
+			// Create a BooleanQuery to combine the two search terms
+			BooleanQuery.Builder queryBuilder = new BooleanQuery.Builder();
+
+			Query query1 = parser.parse(searchTerm);
+			Query query2 = yearParser.parse(String.valueOf(year));
+
+			// Add the search terms to the BooleanQuery
+			queryBuilder.add(query1, BooleanClause.Occur.MUST);
+			queryBuilder.add(query2, BooleanClause.Occur.MUST);
+
+			Query query = queryBuilder.build();
+
+			return searcher.search(query, 10).totalHits.value;
+		} catch (IOException | ParseException e) {
+			throw new RuntimeException(e);
 		}
 	}
 
-	public static List<SearchResult> searchIndex(String searchTerm, String searchAttribute) throws IOException, ParseException {
+	public static List<SearchResult> searchIndex(String searchTerm, String searchAttribute, int pageNumber, int pageSize) throws IOException, ParseException {
 		Directory directory = FSDirectory.open(Paths.get(INDEX_PATH));
 		IndexReader reader = DirectoryReader.open(directory);
 		IndexSearcher searcher = new IndexSearcher(reader);
@@ -74,23 +80,108 @@ public class SearchManager {
 		QueryParser parser = new QueryParser(searchAttribute, new StandardAnalyzer());
 		Query query = parser.parse(searchTerm);
 
-		TopDocs results = searcher.search(query, 10);
-		ScoreDoc[] hits = results.scoreDocs;
-		System.out.println("Hits: " + hits.length);
+		TopDocs results;
+		ScoreDoc[] hits;
 		List<SearchResult> resultsList = new ArrayList<>();
+
+		if (pageNumber == 1) {
+			results = searcher.search(query, pageSize);
+			hits = results.scoreDocs;
+		} else {
+			int previousPageEnd = (pageNumber - 1) * pageSize;
+			ScoreDoc lastScoreDoc = getLastScoreDoc(searcher, query, previousPageEnd);
+
+			if (lastScoreDoc != null) {
+				results = searcher.searchAfter(lastScoreDoc, query, pageSize);
+				hits = results.scoreDocs;
+			} else {
+				hits = new ScoreDoc[0];
+			}
+		}
 
 		for (int i = 0; i < hits.length; i++) {
 			int docId = hits[i].doc;
-			Document document = searcher.doc(docId);
-			String title = document.get("song_name");
-			String artist = document.get("artist");
-			String lyrics = document.get("lyrics");
-
-			resultsList.add(new SearchResult(title, artist, lyrics));
+			addDocumentToList(searcher, resultsList, docId);
 		}
+
 		reader.close();
 
 		return resultsList;
+	}
+
+	public static List<SearchResult> searchIndexGroupByYear(String searchTerm1, String year, String searchAttribute, int pageNumber, int pageSize) {
+		try {
+			Directory directory = FSDirectory.open(Paths.get(INDEX_PATH));
+			IndexReader reader = DirectoryReader.open(directory);
+			IndexSearcher searcher = new IndexSearcher(reader);
+
+			QueryParser parser = new QueryParser(searchAttribute, new StandardAnalyzer());
+			QueryParser yearParser = new QueryParser(Commons.searchAttributeByMode(SearchAttributeMode2Enum.YEAR.getIndexValue(), Commons.INDEX_FILES_MODE), new StandardAnalyzer());
+
+			// Create a BooleanQuery to combine the two search terms
+			BooleanQuery.Builder queryBuilder = new BooleanQuery.Builder();
+
+			Query query1 = parser.parse(searchTerm1);
+			Query query2 = yearParser.parse(String.valueOf(year));
+
+			// Add the search terms to the BooleanQuery
+			queryBuilder.add(query1, BooleanClause.Occur.MUST);
+			queryBuilder.add(query2, BooleanClause.Occur.MUST);
+
+			Query query = queryBuilder.build();
+
+			TopDocs results;
+			ScoreDoc[] hits;
+			List<SearchResult> resultsList = new ArrayList<>();
+
+			if (pageNumber == 1) {
+				results = searcher.search(query, pageSize);
+				hits = results.scoreDocs;
+			} else {
+				int previousPageEnd = (pageNumber - 1) * pageSize;
+				ScoreDoc lastScoreDoc = getLastScoreDoc(searcher, query, previousPageEnd);
+
+				if (lastScoreDoc != null) {
+					results = searcher.searchAfter(lastScoreDoc, query, pageSize);
+					hits = results.scoreDocs;
+				} else {
+					hits = new ScoreDoc[0];
+				}
+			}
+
+			for (ScoreDoc hit : hits) {
+				int docId = hit.doc;
+				addDocumentToList(searcher, resultsList, docId);
+			}
+
+			reader.close();
+
+			return resultsList;
+
+		} catch (IOException | ParseException e) {
+			throw new RuntimeException(e);
+		}
+
+	}
+
+	private static void addDocumentToList(IndexSearcher searcher, List<SearchResult> resultsList, int docId) throws IOException {
+		Document document = searcher.doc(docId);
+		String title = document.get(Commons.searchAttributeByMode("Song Title", Commons.INDEX_FILES_MODE));
+		String artist = document.get(Commons.searchAttributeByMode("Singer", Commons.INDEX_FILES_MODE));
+		String lyrics = document.get(Commons.searchAttributeByMode("Keyword", Commons.INDEX_FILES_MODE));
+
+		resultsList.add(new SearchResult(title, artist, lyrics));
+	}
+
+	private static ScoreDoc getLastScoreDoc(IndexSearcher searcher, Query query, int numResults) throws IOException {
+		TopDocs results = searcher.search(query, numResults);
+		ScoreDoc[] hits = results.scoreDocs;
+
+		if (hits.length > 0) {
+			return hits[hits.length - 1];
+		}
+
+		return null;
 	}
 
 	public static List<SearchResult> searchIndex(String[] searchTerms, String searchAttribute) throws IOException, ParseException {
@@ -112,16 +203,10 @@ public class SearchManager {
 
 		for (int i = 0; i < hits.length; i++) {
 			int docId = hits[i].doc;
-			Document document = searcher.doc(docId);
-			String title = document.get("song_name");
-			String artist = document.get("artist");
-			String lyrics = document.get("lyrics");
-
-			resultsList.add(new SearchResult(title, artist, lyrics));
+			addDocumentToList(searcher, resultsList, docId);
 		}
 		reader.close();
 
 		return resultsList;
 	}
-
 }
