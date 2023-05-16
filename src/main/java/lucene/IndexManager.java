@@ -1,7 +1,5 @@
 package lucene;
 
-import static utils.Commons.RESOURCES_CLASSPATH;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.Reader;
@@ -25,7 +23,6 @@ import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.IndexWriterConfig.OpenMode;
 import org.apache.lucene.index.IndexableField;
-import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 

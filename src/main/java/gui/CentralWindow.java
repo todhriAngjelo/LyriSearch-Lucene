@@ -258,9 +258,23 @@ public class CentralWindow extends JFrame implements ActionListener {
 					message += "- Title: <a href=\"" + youtubeLink + "\">" + songTitle + "</a><br>";
 					message += "- Artist: " + artist + "<br><br>";
 					message += "Lyrics:<br>";
-					message += mostFrequentSong.getLyrics()
-							.replaceAll("(?m)^\\s+", "") // remove all leading whitespace
-							.replaceAll("(?m)$", "<br/>");
+
+					String lyrics = mostFrequentSong.getLyrics();
+					String[] words = lyrics.split("\\s+");
+
+					StringBuilder formattedLyrics = new StringBuilder();
+					int wordCount = 0;
+					for (String word : words) {
+						formattedLyrics.append(word).append(" ");
+						wordCount++;
+
+						if (wordCount >= 8 && wordCount % 8 == 0) {
+							formattedLyrics.append("<br/>");
+						}
+					}
+
+					message += formattedLyrics.toString().trim()
+							.replaceAll("(?m)^\\s+", ""); // remove all leading whitespace
 
 					JLabel messageLabel = new JLabel("<html>" + message + "</html>");
 

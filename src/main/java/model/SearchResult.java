@@ -12,13 +12,6 @@ public class SearchResult {
 		this.lyrics = lyrics;
 	}
 
-	public SearchResult(String songTitle, String singer, String lyrics, int year) {
-		this.songTitle = songTitle;
-		this.singer = singer;
-		this.lyrics = lyrics;
-		this.year = year;
-	}
-
 	public SearchResult() {
 	}
 

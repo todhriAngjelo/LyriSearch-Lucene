@@ -22,15 +22,17 @@ LyriSearch is the perfect tool for anyone who loves music and wants to explore l
 
 - There are 2 ways, the easy way and the hard way.
 - The easy way is to grant and use a dataset that can be found online in the web. There exists websites which provide plenty datasets. One of the most famous is kaggle. For the csv that we will attach in the resources a dataset from Kaggle was used.
-  <br> Dataset --> https://www.kaggle.com/datasets/terminate9298/songs-lyrics?select=lyrics.csv
+  Primary Dataset --> https://www.kaggle.com/datasets/terminate9298/songs-lyrics?select=lyrics.csv
+  Second dataset used ( with different MODE you can select which dataset to index) --> https://www.kaggle.com/datasets/deepshah16/song-lyrics-dataset
 - The hard way would consist of  data scrapingto collect our data from websites like lyrics.com, azlyrics.com etc
-- Python script could be used for the data scraping(sample script can be found at: /src/main/resources )
-- Data were extracted in cvs format. We decided to use csv because 
+- Python script could be used for the data scraping and data manipulating (sample script can be found at: /src/main/resources )
+- Data were extracted in cvs format. We decided to use csv because
   - Compatibility: CSV (Comma-Separated Values) is a widely-used file format that can be easily imported into a wide range of software applications, including spreadsheet software, databases, and programming languages. This makes it an excellent choice for exporting data from your app, as it can be easily accessed and manipulated by users or other software tools
   - Simplicity: CSV is a very simple and lightweight file format, making it easy to understand and work with even for non-technical users. It consists of rows and columns of data, with each row representing a record and each column representing a field. This simplicity also makes it a good choice for storing and transferring large amounts of data
   - Scalability: CSV can be used to store and manage large amounts of data, making it a scalable solution for your app's data management needs. It can handle large datasets without sacrificing performance or requiring specialized hardware or software. This can be particularly important if your app deals with a lot of data or needs to scale up quickly
-- Each record contains 4 information (attributes). And id, the song title, the artist name and the lyrics of the song.
-- A sample of 500 song lyrics is going to be used. The number of the lyrics can be adjusted in the script. 
+- Each record contains 3 to 4 information (attributes). The song title, the artist name, the lyrics of the song and the release year.
+- Three samples were used for the development and the production of the application.
+- One consisting of a few songs ( up to 10) , one consisting of more than 500 song lyrics. One final set of lyrics in different csvs and of different artists was used also.
 - Lucene is scalable and it claims to handle big set of data without any issue, with small RAM requirements and modern hardware. Internally we will perform tests in bigger data sets as well. Our main focus is to build a first version of a running application ( prototype )
 
 Sample python script:
@@ -78,18 +80,18 @@ Sample python script:
 
 ## Short description of the project.
 
-#### Introduction: 
+#### Introduction:
 The goal of the system is to allow users to search for song lyrics using various search criteria such as song title, artist name, and lyrics keywords. The app will leverage Lucene's text analysis and indexing capabilities to provide efficient and accurate search results.
 
-#### Text analysis and index construction: 
-The app will preprocess the lyrics data by applying various text analysis techniques such as tokenization, stemming, and stop word removal using Lucene's Analyzer API. The resulting documents will be indexed using Lucene's IndexWriter API, which will create an inverted index that maps terms to the documents in which they appear. The documents will have fields such as song title, artist name, lyrics, and genre to support different search modes. The app will also use Lucene's QueryParser API to parse user input and create corresponding query objects to search the index.
+#### Text analysis and index construction:
+The app will preprocess the lyrics data by applying various text analysis techniques such as tokenization, stemming, and stop word removal using Lucene's Analyzer API. The resulting documents will be indexed using Lucene's IndexWriter API, which will create an inverted index that maps terms to the documents in which they appear. The documents will have fields such as song title, artist name, lyrics, and release year to support different search modes. The app will also use Lucene's QueryParser API to parse user input and create corresponding query objects to search the index.
 
 
-#### Search: 
-The app will support various types of queries such as term queries, phrase queries, fuzzy queries, and wildcard queries using Lucene's Query API. The app will also support boolean queries that combine multiple queries using operators such as AND, OR, and NOT. The app will use Lucene's IndexSearcher API to execute the queries and retrieve matching documents from the index.
+#### Search:
+The app will support various types of queries such as term queries, phrase queries, fuzzy queries, and wildcard queries using Lucene's Query API. The app will use Lucene's IndexSearcher API to execute the queries and retrieve matching documents from the index.
 
-#### Presentation of results: 
-The app will present the search results in a user-friendly format such as a list or table. The app will also provide snippets of the matching lyrics to highlight the relevant parts of the song. The app can use Lucene's Highlighter API to generate the snippets based on the search query and the lyrics field in the indexed documents.
+#### Presentation of results:
+The app will present the search results in a user-friendly format such as a list or table. The app will also provide snippets of the matching lyrics to highlight the relevant parts of the song. Pagination will be supported and groupping based on releae year of the song.
 
 
 ## Tech
@@ -113,6 +115,7 @@ Preferably clone the project to your IDE and hit the run button.
 Install InteliJ IDEA
 Clone project - File -> New -> Project from Version Control -> Git
 Run project - Run -> Run 'Main'
+Run gui.CentralWindow class with Java 17++
 ```
 
 ## Versions & Updates
@@ -122,8 +125,8 @@ Instructions on how to use them in your own application are linked below.
 
 | Version   | Release Notes                                                              |
 |-----------|----------------------------------------------------------------------------|
-| Version 1 | initial commit                                                             |
-| Version 2 | commit readme and app logo                                                 |
-| Version 3 | commit readme update, lyrisearch headermage and pom.xml ( maven support )  |
-| Version 4 | redme support, some screenshots commit source code for the swing main page |
-| Version 5 | readme finalization with small intro of the program and csv file           |
+| Version 1.0 | initial commit , commit readme and app logo                              |
+| Version 2.0 | commit readme update, lyrisearch headermage and pom.xml ( maven support )|
+| Version 2.1 | redme support, some screenshots commit source code for the swing main page|
+| Version 2.2 | readme finalization with small intro of the program and csv file         |
+| Version 3 | final application files, java impl files, final csv files, new and finalized guis   |

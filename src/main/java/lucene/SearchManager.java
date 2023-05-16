@@ -201,8 +201,8 @@ public class SearchManager {
 		System.out.println("Hits: " + hits.length);
 		List<SearchResult> resultsList = new ArrayList<>();
 
-		for (int i = 0; i < hits.length; i++) {
-			int docId = hits[i].doc;
+		for (ScoreDoc hit : hits) {
+			int docId = hit.doc;
 			addDocumentToList(searcher, resultsList, docId);
 		}
 		reader.close();
