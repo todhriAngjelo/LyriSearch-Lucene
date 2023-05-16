@@ -18,6 +18,9 @@ LyriSearch is the perfect tool for anyone who loves music and wants to explore l
 - Angjelo Todhri
 - ✨ Evaggelia Pitoura ✨
 
+The link with the presentation of the project and its basic functionality can be found here:
+https://youtu.be/SNSHUosy5qA ( total duration 12:25 minutes )
+
 ## (Corpus) Details & Credits
 
 - There are 2 ways, the easy way and the hard way.
@@ -35,48 +38,24 @@ LyriSearch is the perfect tool for anyone who loves music and wants to explore l
 - One consisting of a few songs ( up to 10) , one consisting of more than 500 song lyrics. One final set of lyrics in different csvs and of different artists was used also.
 - Lucene is scalable and it claims to handle big set of data without any issue, with small RAM requirements and modern hardware. Internally we will perform tests in bigger data sets as well. Our main focus is to build a first version of a running application ( prototype )
 
-Sample python script:
+## Basic Functionalities offered to the user ( Use cases )
 
-    import requests
-    from bs4 import BeautifulSoup
-    import csv
-    import time
+- Lyrics search. Search lyrics from a wide range of lyrics dataset consisting of many artists. For each new csv data structures a new mapping has to be implemented inside the application. There are currently 2 mappings for 2 different csv structures implemented.
+- Lyrics search based on search attribute. Search based on Song title, Song Artist or a keyword from the songs lyrics.
+- Show of results. Results are displayed and the search term is highlighted at the results. Pagination is supported and grouping based on the release year of the song.
+- Results pages is opened in a new tab. The user can open the results in a new tab and navigate through the results. Each result has different color for better user experience.
+- Recommendation of songs. The user can get a recommendation of songs based on his search term history. His most recent search terms are combined to create a new query to Lucene and the results are displayed to the user.
+- Indexing functionality is offered through a button. User has to click on the index button only in the first time he uses the application. After that the index is created and the user can search for lyrics.
 
-    # List of URLs to scrape
-    urls = ['https://www.azlyrics.com/lyrics/michaeljackson/takemeback.html',
-    'https://www.azlyrics.com/lyrics/madonna/likeaprayer.html',
-    'https://www.azlyrics.com/lyrics/queen/bohemianrhapsody.html']
+## Main views of the application
 
-    # Open a CSV file for writing
-    with open('song_lyrics.csv', 'w', newline='') as csvfile:
-    writer = csv.writer(csvfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+![LyriSearch header image](\src\main\resources\Main screen.png)
 
-    # Write the header row
-    writer.writerow(['artist', 'song', 'lyrics'])
+![LyriSearch header image](\src\main\resources\Show results screen.png)
 
-    # Loop through the list of URLs
-    for url in urls:
-    # Send a GET request to the URL
-    response = requests.get(url)
+![LyriSearch header image](\src\main\resources\Recommended song screen.png)
 
-    # Parse the HTML content using BeautifulSoup
-    soup = BeautifulSoup(response.content, 'html.parser')
 
-    # Extract the song title and artist name from the page title
-    title = soup.title.string
-    artist, song = title.split(' - ')
-
-    # Extract the lyrics text from the page
-    lyrics = soup.find('div', class_='ringtone').find_next_sibling('div').text.strip()
-
-    # Write the data row for this URL
-    writer.writerow([artist, song, lyrics])
-
-    # Print a success message
-    print(f"Song '{song}' successfully scraped.")
-
-    # Pause for 10 seconds before scraping the next URL
-    time.sleep(10)
 
 ## Short description of the project.
 
@@ -130,3 +109,46 @@ Instructions on how to use them in your own application are linked below.
 | Version 2.1 | redme support, some screenshots commit source code for the swing main page|
 | Version 2.2 | readme finalization with small intro of the program and csv file         |
 | Version 3 | final application files, java impl files, final csv files, new and finalized guis   |
+
+### Sample python script that could be used to scrape lyrics from a website(not used):
+
+    import requests
+    from bs4 import BeautifulSoup
+    import csv
+    import time
+
+    # List of URLs to scrape
+    urls = ['https://www.azlyrics.com/lyrics/michaeljackson/takemeback.html',
+    'https://www.azlyrics.com/lyrics/madonna/likeaprayer.html',
+    'https://www.azlyrics.com/lyrics/queen/bohemianrhapsody.html']
+
+    # Open a CSV file for writing
+    with open('song_lyrics.csv', 'w', newline='') as csvfile:
+    writer = csv.writer(csvfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+
+    # Write the header row
+    writer.writerow(['artist', 'song', 'lyrics'])
+
+    # Loop through the list of URLs
+    for url in urls:
+    # Send a GET request to the URL
+    response = requests.get(url)
+
+    # Parse the HTML content using BeautifulSoup
+    soup = BeautifulSoup(response.content, 'html.parser')
+
+    # Extract the song title and artist name from the page title
+    title = soup.title.string
+    artist, song = title.split(' - ')
+
+    # Extract the lyrics text from the page
+    lyrics = soup.find('div', class_='ringtone').find_next_sibling('div').text.strip()
+
+    # Write the data row for this URL
+    writer.writerow([artist, song, lyrics])
+
+    # Print a success message
+    print(f"Song '{song}' successfully scraped.")
+
+    # Pause for 10 seconds before scraping the next URL
+    time.sleep(10)
