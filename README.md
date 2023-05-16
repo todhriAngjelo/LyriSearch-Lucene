@@ -1,5 +1,5 @@
 # LyriSearch Lucene
-![LyriSearch header image](\src\main\resources\LyriSearch header image.PNG)
+<img src="/src/main/resources/LyriSearch header image.PNG" alt="LyriSearch Lucene Header Image" title="Header Image LyriSearch Lucene">
 
 ### ~~~ _A search engine for lyrics, powered by Dionisis & Angjelo_
 
@@ -49,12 +49,11 @@ https://youtu.be/SNSHUosy5qA ( total duration 12:25 minutes )
 
 ## Main views of the application
 
-![LyriSearch header image](\src\main\resources\Main screen.png)
+<img src="/src/main/resources/Main screen.png" alt="Main screen" title="Main screen">
 
-![LyriSearch header image](\src\main\resources\Show results screen.png)
+<img src="/src/main/resources/Show results screen.png" alt="Show results screen" title="Show results screen">
 
-![LyriSearch header image](\src\main\resources\Recommended song screen.png)
-
+<img src="/src/main/resources/Recommended song screen.png" alt="Recommended song screen" title="Recommended song screen">
 
 
 ## Short description of the project.
